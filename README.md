@@ -8,7 +8,10 @@ For complete description and analysis of our proposed scheme, please refer to [C
 =================
 * [Prerequisites](#prerequisites)
 * [Brief Introduction](#brief-introduction)
-* [Support coverage estimator](#support-coverage-estimator)
+* [Hadamard Response](#support-coverage-estimator)
+* [Subset Selection]
+* [Classical methods: Randomized Response and RAPPOR]
+* [Comprehensive Testing Script]
 
 Prerequisites
 =====

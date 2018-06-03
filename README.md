@@ -1,11 +1,10 @@
-# k2k_local_privacy
-This package implements the Hadamard randomized responce(k-HR) scheme to achieve locally differentially private channel. With only $O(log k)$ communication budget for each user($k$ is the input alphabet size). 
-Our proposed scheme can achieve optimal sample complexity for learning distributions under local differential privacy for all ranges of privacy parameter.
+# Hadamard Response: learning distribution privately and efficiently with little communication
+This package implements Hadamard Response as well as three former schemes for locally private distribution learning. We also provide a script to compare their performance on synthetic data.
 
-For complete description and analysis of our proposed scheme, please refer to [Communication, Efficient Sample Optimal Linear Time Locally Private Discrete Distribution Estimation](https://arxiv.org/abs/1802.04705) by [Jayadev Acharya](http://people.ece.cornell.edu/acharya/), Ziteng Sun and Huanyu Zhang.
+For complete description and analysis of the schemes, please refer to [Communication, Efficient Sample Optimal Linear Time Locally Private Discrete Distribution Estimation](https://arxiv.org/abs/1802.04705) by [Jayadev Acharya](http://people.ece.cornell.edu/acharya/), Ziteng Sun and Huanyu Zhang and its references.
 
-#Table of contents
-=================
+
+## Table of contents
 * [Prerequisites](#prerequisites)
 * [Brief Introduction](#brief-introduction)
 * [Hadamard Response](#support-coverage-estimator)
@@ -13,8 +12,8 @@ For complete description and analysis of our proposed scheme, please refer to [C
 * [Classical methods: Randomized Response and RAPPOR]
 * [Comprehensive Testing Script]
 
-Prerequisites
-=====
+## Prerequisites
+
 This project is implemented in Python3, using [Numpy](http://www.numpy.org) and [matplotlib](https://matplotlib.org/index.html). Before running the code, make sure Python3, Numpy and Matplotlib are installed.
 
 * [Instruction for installing Python3](https://docs.python.org/3/using/index.html)
@@ -22,8 +21,34 @@ This project is implemented in Python3, using [Numpy](http://www.numpy.org) and 
 * [Instruction for installing Matplotlib](https://matplotlib.org/users/installing.html) 
 
 
-Brief Introduction
-================
+## Brief Introduction
+
+
+## Usage
+
+The four schemes are implemented based on python classes. Befors using, please first import the packages and then specialize the scheme with the alphabet size and the required privacy level.
+
+```python
+    import k2k_hadamard
+    import Subsetselection
+    import RR_RAPPOR
+    
+    subset = Subsetselection.Subsetselection(k, eps) #class for subset selection algorithm
+    rappor = RR_RAPPOR.RAPPOR(k, eps) #class for RAPPOR
+    rr = RR_RAPPOR.Randomized_Response(k, eps) #class for Randomized Response
+    hr = k2k_hadamard.Hadamard_Rand_2_modified(k, eps) #initialize hadamard response
+```
+When you simulate Hadamard responce on a single computer, we provide the option of encoding acceleration by storing Hadamard matrix with the expense of large memory cost. If you want to use accelerate the encoding process, just set variable *encode_acc* to be *one* when intializing hadamard response.
+
+
+```python
+    import k2k_hadamard
+    hr = k2k_hadamard.Hadamard_Rand_2_modified(k, eps, encode_acc = 1) #initialize hadamard response
+```
+
+### Hadamard Response
+
+
 
 
 Comprehensive script

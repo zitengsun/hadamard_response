@@ -1,67 +1,131 @@
-# k2k_local_privacy
-This package implements the Hadamard randomized responce(k-HR) scheme to achieve locally differentially private channel. With only $O(log k)$ communication budget for each user($k$ is the input alphabet size). 
-Our proposed scheme can achieve optimal sample complexity for learning distributions under local differential privacy for all ranges of privacy parameter.
+# Hadamard Response: learning distribution privately and efficiently with little communication
+This package implements Hadamard Response for locally private distribution learning as well as three former schemes including Randomized Response(RR), RAPPOR and Subset Selection(SS). We also provide a script to compare their performance on synthetic data.
 
-For complete description and analysis of our proposed scheme, please refer to [Communication, Efficient Sample Optimal Linear Time Locally Private Discrete Distribution Estimation](https://arxiv.org/abs/1802.04705) by [Jayadev Acharya](http://people.ece.cornell.edu/acharya/), Ziteng Sun and Huanyu Zhang.
+For complete description and analysis of the schemes, please refer to [Communication, Efficient Sample Optimal Linear Time Locally Private Discrete Distribution Estimation](https://arxiv.org/abs/1802.04705) by [Jayadev Acharya](http://people.ece.cornell.edu/acharya/), Ziteng Sun and Huanyu Zhang and its references.
 
-#Table of contents
-=================
-* [Prerequisites](#prerequisites)
+
+## Table of contents
 * [Brief Introduction](#brief-introduction)
-* [Hadamard Response](#support-coverage-estimator)
-* [Subset Selection]
-* [Classical methods: Randomized Response and RAPPOR]
-* [Comprehensive Testing Script]
+* [Prerequisites](#prerequisites)
+* [Usage](#usage)
+* [Acknowledgement](#acknowledgement)
 
-Prerequisites
-=====
+
+## Brief Introduction
+
+Given independent samples from an unknown distribution, the task of distribution learning is to infer the underlying distribution. In local differential privacy, setting, samples are distributed in multiple users, and instead of sending the original samples they get, each user send a randomized version of their sample to preserve privacy. This comes with the expense of higher sample complexity.
+
+In high privacy regime, all former schemes require either a higher communication cost which is linear with the alphabet size *k* or a higher sample complexity which is a factor of *k* larger than the optimal. Our proposed scheme is the first to achieve optimal sample complexity and communication complexity in this regime. Moreover,The computation complexity at the server end is only *O(n+k)* while other optimal schemes require *Omega(nk)* time. A slightly generalized version is sample optimal in all parameter regime with the same communication and computation complexity.
+
+
+## Prerequisites
+
 This project is implemented in Python3, using [Numpy](http://www.numpy.org) and [matplotlib](https://matplotlib.org/index.html). Before running the code, make sure Python3, Numpy and Matplotlib are installed.
 
 * [Instruction for installing Python3](https://docs.python.org/3/using/index.html)
 * [Instruction for installing Numpy](https://www.scipy.org/install.html)
 * [Instruction for installing Matplotlib](https://matplotlib.org/users/installing.html) 
 
+## Usage
 
-Brief Introduction
-================
+The comments in the packages are enough to understand how to use the functions. Here we provide some examples which hopefully will be helpful. The four schemes are implemented based on python classes. Befors using, please first import the packages and then specialize the scheme with the alphabet size and the required privacy level.
+
+```python
+    import k2k_hadamard
+    import Subsetselection
+    import RR_RAPPOR
+    
+    subset = Subsetselection.Subsetselection(k, eps) #class for subset selection algorithm
+    rappor = RR_RAPPOR.RAPPOR(k, eps) #class for RAPPOR
+    rr = RR_RAPPOR.Randomized_Response(k, eps) #class for Randomized Response
+    hr = k2k_hadamard.Hadamard_Rand_general(k, eps) #initialize hadamard response
+```
+When you simulate Hadamard responce on a single computer, we provide the option of encoding acceleration by storing Hadamard matrix with the expense of large memory cost. If you want to use accelerate the encoding process, just set variable *encode_acc* to be *one* when intializing hadamard response.
+
+```python
+    import k2k_hadamard
+    hr = k2k_hadamard.Hadamard_Rand_general(k, eps, encode_acc = 1) #initialize hadamard response
+```
+
+### Hadamard Response
+We provide multiple classes for Hadamard response scheme. If you are focusing on the high privacy regime, i.e. the case when the privacy prarameter is small (small single digit), please use the class *Hadamard_Rand_high_priv*. If you want to test other cases, please use *Hadamard_Rand_general*, which is an improved version of *Hadamard_Rand_general_original*. The latter is the version we provide in the paper and it is easier to analyze, so we also provide it in the package.
+
+The following script first encode the input string into its randomized version and then learn the distribution based on the output string:
+```python
+    out_string = hr.encode_string(in_list)
+    prob_est = hr.decode_string(out_string) # estimate the original underlying distribution
+```
+
+If you only want to encode a single symbol, please use:
+
+```python
+    out_symbol = hr.encode_symbol(in_symbol)
+```
+
+When you decode the output string, you can also choose whether to use fast decoding and how to normalize the output. In general, fast decoding is preferred. For normalization, we provide two options, clip and normalize(default setting) and simplex projection.
+
+### Randomized Response
+
+The following script first encode the input string into its randomized version and then learn the distribution based on the output string:
+```python
+    out_string = rr.encode_string(in_list)
+    prob_est = rr.decode_string(out_string) # estimate the original underlying distribution
+```
+Different normalization options are also provided for randomized response.
 
 
-Comprehensive script
----------
-We provide ```main_entropy.py``` as an example script for our private estimator. In this script, we compare performance for these entropy estimators on different distributions including uniform, a distribution with two steps, Zipf(1/2), a distribution with Dirichlet-1 prior, and a distribution with Dirichlet-1/2 prior. We use RMSE (root-mean-square error) to indicate the performance of the estimator.
+### Subset Selection and RAPPOR
+The implementation of these two are quite similar, so here we five Subset Selection as an example.
 
-### Program arguments
+We have three encoding modes for *Subsetselection*, *standard*, *compress* and *light*. For *standard* mode, the following encoding function encode the input string into a *0/1* matrix of size *(n,k)* (*n* is the number of inputs and *k* is the alphabet size) where each row is the codeword corresponding to a certain input. To decode, we simply use *decode_string* function to decode this matrix:
 
-* ```k int```: Set alphabet size. 
-* ```eps float```: Set privacy parameter eps.
-* ```l_degree int```: Set polynomial degree for private poly. Default *L=1.2 log k*.
-* ```M_degree float```: Set the right endpoint of approximation interval for private poly. Default *M=2.0 log k*.
-* ```N_degree int```: Set the threshold to apply polynomial estimator for private poly. Default *M=1.6 log k*.
-
-For the parameters of poly estimator, we just use the default values in their code, which are *L=1.6 log k, M=3.5 log k, N=1.6 log k*. Please see [entropy](https://github.com/Albuso0/entropy) for more information.
+```python
+    out_string = subset.encode_string_fast(in_list) 
+    prob_est = subset.decode_string(outp_string,n) # estimate the original underlying distribution
+```
 
 
-Support coverage estimator
-================
-In this project, we implement our estimator for private estimation of support coverage.
-This is a privatized version of the Smoothed Good-Toulmin (SGT) estimator of [Alon Orlitsky](http://alon.ucsd.edu/), [Ananda Theertha Suresh](http://theertha.info/), and [Yihong Wu](http://www.stat.yale.edu/~yw562/), from their paper [Optimal prediction of the number of unseen species](http://www.pnas.org/content/113/47/13283?sid=c704d36c-5237-4425-84e4-498dcd5151b1).
-We compare the performance of the private and non-private statistics on both synthetic data and real-world data, including US Census name data and a text corpus from Shakespeare's Hamlet.
+The drawback of *standard* mode is that it will have a huge momory cost, so we provide the *light* mode, which encode the input string into a *k*-length string which represents the total number of *1*'s at each location. We will also return the time for the counting step as this should be added into the decoding time. For decoding, we use *decode_counts*:
 
-Some of our code is based off the SGT implementation of Orlitsky, Suresh, and Wu, graciously provided to us by Ananda Theertha Suresh. Specific files used are indicated in comments, and ```hamlet_total.csv``` is a reformatted version of a provided file. ```lastnames_total.csv``` is a subsampling of a file of [Frequently Occurring Surnames from the Census 2000](https://www.census.gov/topics/population/genealogy/data/2000_surnames.html).
+```python
+    counts, time = subset.encode_string_light(in_list) 
+    prob_est = subset.decode_counts(counts,n) # estimate the original underlying distribution
+```
 
-Synthetic data 
----------
-We provide ```main_synthetic.py``` as an example for our private estimator. In this script, we compare performance for the estimators on different distributions including uniform, a distribution with two steps, Zipf(1/2), a distribution with Dirichlet-1 prior, and a distribution with Dirichlet-1/2 prior. We use RMSE (root-mean-square error) to indicate the performance of the estimator.
+For *compress mode*, we encode each input symbol into a string of locations of *1*'s and then concatenate them together to get a bigger string. This may result in less communication cost when the privacy parameter is relatively large. When decoding, we need to first get the histogram and the use *decode_counts*:
 
-### Program arguments
-* ```k int```: Set alphabet size for the distribution.
-* ```eps_index list```: Set privacy parameter for the private estimators.
-* ```n int```: The number of the seen samples
+```python
+    out_list = subset.encode_string_compress(in_list) #subset selection
+    counts, temp = np.histogram(out_list,range(k+1)) # k is the alphabet size
+    prob_est = subset.decode_counts(counts, n) # estimate the original underlying distribution
+```
 
-Real data
----------
-We provide ```main_real.py``` as an example for our private estimator. In this script, we compare performance for the estimators on real data. We use RMSE (root-mean-square error) to indicate the performance of the estimator.
 
-### Program arguments
-* ```file_name string```: The name of the histogram file. The histogram file must be in ```.csv```, which has only one column and each row is the number of samples for each species. We provide ```hamlet_total.csv``` and ```lastnames_total.csv``` as some examples.
-* ```eps_index list```: Set privacy parameter for the private estimators.
+### Simulation
+
+For simulation, we provide functions to get *geometric*, *uniform*, *two step*, *Zipf* and *Dirichlet* distributions.
+
+
+```python
+    import functions
+    dist = generate_geometric_distribution(k,lbd)
+```
+
+In file *test.ipynb* We also provide a function to compare the perfomance of the four schemes in terms of l_1 and l_2 error:
+
+```python
+    data = test(k, eps, rep, point_num, step_sz, init, dist, encode_acc = 1, encode_mode = 0)
+    #Args:
+    # k : alphabet size,  eps: privacy level, rep: repetition times to compute a point
+    # point_num: number of points to compute
+    # step_sz: distance between two sample sizes
+    # init: initial sample size = init* step_sz
+    # dist: underlying data distribution: choose from 'Uniform', 'Two_steps', 'Zipf', 'Dirchlet', 'Geometric'
+    # encode_acc : control whether to use fast encoding for hadamard responce
+    # mode: control encoding method for rappor and subset selection
+```
+You can customize the testing process by setting these parameters. The returned data file will contain the errors, time stamps, parameter settings and other related information. Plots for comparing l_1, l_2 error and decoding time will be generated. A *.mat* file with time stamp will also be stored when the testing process is done.
+
+## Acknowledgement
+
+Thank [Peter Kairouz](https://web.stanford.edu/~kairouzp/) for valuable suggestions on improving the code.

@@ -13,9 +13,9 @@ For complete description and analysis of the schemes, please refer to [Communica
 
 ## Brief Introduction
 
-Given independent samples from an unknown distribution, the task of distribution learning is to infer the underlying distribution. In local differential privacy, setting, samples are distributed in multiple users, and instead of sending the original samples they get, each user send a randomized version of their sample to preserve privacy. This comes with the expense of higher sample complexity.
+Given *n* independent samples from an unknown distribution, the task of distribution learning is to infer the underlying distribution. In local differential privacy setting, samples are distributed in multiple users, and instead of sending the original samples they get, each user send a randomized version of their sample to preserve privacy. This comes with the expense of higher sample complexity.
 
-In high privacy regime, all former schemes require either a higher communication cost which is linear with the alphabet size *k* or a higher sample complexity which is a factor of *k* larger than the optimal. Our proposed scheme is the first to achieve optimal sample complexity and communication complexity in this regime. Moreover,The computation complexity at the server end is only *O(n+k)* while other optimal schemes require *Omega(nk)* time. A slightly generalized version is sample optimal in all parameter regime with the same communication and computation complexity.
+In high privacy regime, all former schemes require either a higher communication cost which is linear with the alphabet size *k* or a higher sample complexity which is a factor of *k* larger than the optimal. Our proposed scheme is the first to achieve optimal sample complexity and communication complexity in this regime. Moreover, the computation complexity at the server end is only *O(n+k)* while other optimal schemes require *Omega(nk)* time. A slightly generalized version is sample optimal in all parameter regimes with the same communication and computation complexity.
 
 
 ## Prerequisites
@@ -28,7 +28,7 @@ This project is implemented in Python3, using [Numpy](http://www.numpy.org) and 
 
 ## Usage
 
-The comments in the packages are enough to understand how to use the functions. Here we provide some examples which hopefully will be helpful. The four schemes are implemented based on python classes. Befors using, please first import the packages and then specialize the scheme with the alphabet size and the required privacy level.
+The comments in the code files are enough to understand how to use the functions. Here we provide some examples which hopefully will be helpful. The four schemes are implemented based on python classes. Before using, please first import the packages and then specialize the scheme with the alphabet size (*k*) and the required privacy level (*eps*).
 
 ```python
     import k2k_hadamard
@@ -40,7 +40,7 @@ The comments in the packages are enough to understand how to use the functions. 
     rr = RR_RAPPOR.Randomized_Response(k, eps) #class for Randomized Response
     hr = k2k_hadamard.Hadamard_Rand_general(k, eps) #initialize hadamard response
 ```
-When you simulate Hadamard responce on a single computer, we provide the option of encoding acceleration by storing Hadamard matrix with the expense of large memory cost. If you want to use accelerate the encoding process, just set variable *encode_acc* to be *one* when intializing hadamard response.
+When you simulate Hadamard response on a single computer, we provide the option of encoding acceleration by storing Hadamard matrix with the expense of large memory cost. If you want to accelerate the encoding process, just set variable *encode_acc* to be *one* when intializing hadamard response.
 
 ```python
     import k2k_hadamard
@@ -50,7 +50,7 @@ When you simulate Hadamard responce on a single computer, we provide the option 
 ### Hadamard Response
 We provide multiple classes for Hadamard response scheme. If you are focusing on the high privacy regime, i.e. the case when the privacy prarameter is small (small single digit), please use the class *Hadamard_Rand_high_priv*. If you want to test other cases, please use *Hadamard_Rand_general*, which is an improved version of *Hadamard_Rand_general_original*. The latter is the version we provide in the paper and it is easier to analyze, so we also provide it in the package.
 
-The following script first encode the input string into its randomized version and then learn the distribution based on the output string:
+The following script encodes the input string into its randomized version and then learns the distribution based on the output string:
 ```python
     out_string = hr.encode_string(in_list)
     prob_est = hr.decode_string(out_string) # estimate the original underlying distribution
@@ -71,11 +71,11 @@ The following script first encode the input string into its randomized version a
     out_string = rr.encode_string(in_list)
     prob_est = rr.decode_string(out_string) # estimate the original underlying distribution
 ```
-Different normalization options are also provided for randomized response.
+The same normalization options are also provided for randomized response.
 
 
 ### Subset Selection and RAPPOR
-The implementation of these two are quite similar, so here we five Subset Selection as an example.
+The implementation of these two are quite similar, so here we give Subset Selection as an example.
 
 We have three encoding modes for *Subsetselection*, *standard*, *compress* and *light*. For *standard* mode, the following encoding function encode the input string into a *0/1* matrix of size *(n,k)* (*n* is the number of inputs and *k* is the alphabet size) where each row is the codeword corresponding to a certain input. To decode, we simply use *decode_string* function to decode this matrix:
 

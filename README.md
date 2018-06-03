@@ -7,10 +7,8 @@ For complete description and analysis of the schemes, please refer to [Communica
 ## Table of contents
 * [Prerequisites](#prerequisites)
 * [Brief Introduction](#brief-introduction)
-* [Hadamard Response](#support-coverage-estimator)
-* [Subset Selection]
-* [Classical methods: Randomized Response and RAPPOR]
-* [Comprehensive Testing Script]
+* [Usage](#usage)
+* [Acknowledgement] (#acknowledgement)
 
 ## Prerequisites
 
@@ -122,4 +120,8 @@ We also provide a function to compare the perfomance of the four schemes in term
     # encode_acc : control whether to use fast encoding for hadamard responce
     # mode: control encoding method for rappor and subset selection
 ```
-You can customize the testing process by setting these parameters. The returned data file will contain time stamps, the errors, parameter settings and so on. Plots for comparing l_1, l_2 error and decoding time will be generated. A *.mat* file with time stamp will also be stored when the testing process is done.
+You can customize the testing process by setting these parameters. The returned data file will contain the errors, time stamps, parameter settings and other related information. Plots for comparing l_1, l_2 error and decoding time will be generated. A *.mat* file with time stamp will also be stored when the testing process is done.
+
+## Acknowledgement
+
+Thank [Peter Kairouz](https://web.stanford.edu/~kairouzp/) for valuable suggestions on 

@@ -1,14 +1,22 @@
 # Hadamard Response: learning distribution privately and efficiently with little communication
-This package implements Hadamard Response as well as three former schemes for locally private distribution learning. We also provide a script to compare their performance on synthetic data.
+This package implements Hadamard Response for locally private distribution learning as well as three former schemes including Randomized Response(RR), RAPPOR and Subset Selection(SS). We also provide a script to compare their performance on synthetic data.
 
 For complete description and analysis of the schemes, please refer to [Communication, Efficient Sample Optimal Linear Time Locally Private Discrete Distribution Estimation](https://arxiv.org/abs/1802.04705) by [Jayadev Acharya](http://people.ece.cornell.edu/acharya/), Ziteng Sun and Huanyu Zhang and its references.
 
 
 ## Table of contents
-* [Prerequisites](#prerequisites)
 * [Brief Introduction](#brief-introduction)
+* [Prerequisites](#prerequisites)
 * [Usage](#usage)
-* [Acknowledgement] (#acknowledgement)
+* [Acknowledgement](#acknowledgement)
+
+
+## Brief Introduction
+
+Given independent samples from an unknown distribution, the task of distribution learning is to infer the underlying distribution. In local differential privacy, setting, samples are distributed in multiple users, and instead of sending the original samples they get, each user send a randomized version of their sample to preserve privacy. This comes with the expense of higher sample complexity.
+
+In high privacy regime, all former schemes require either a higher communication cost which is linear with the alphabet size *k* or a higher sample complexity which is a factor of *k* larger than the optimal. Our proposed scheme is the first to achieve optimal sample complexity and communication complexity in this regime. Moreover,The computation complexity at the server end is only *O(n+k)* while other optimal schemes require *Omega(nk)* time. A slightly generalized version is sample optimal in all parameter regime with the same communication and computation complexity.
+
 
 ## Prerequisites
 
@@ -17,10 +25,6 @@ This project is implemented in Python3, using [Numpy](http://www.numpy.org) and 
 * [Instruction for installing Python3](https://docs.python.org/3/using/index.html)
 * [Instruction for installing Numpy](https://www.scipy.org/install.html)
 * [Instruction for installing Matplotlib](https://matplotlib.org/users/installing.html) 
-
-
-## Brief Introduction
-
 
 ## Usage
 
@@ -107,7 +111,7 @@ For simulation, we provide functions to get *geometric*, *uniform*, *two step*, 
     dist = generate_geometric_distribution(k,lbd)
 ```
 
-We also provide a function to compare the perfomance of the four schemes in terms of l_1 and l_2 error:
+In file *test.ipynb* We also provide a function to compare the perfomance of the four schemes in terms of l_1 and l_2 error:
 
 ```python
     data = test(k, eps, rep, point_num, step_sz, init, dist, encode_acc = 1, encode_mode = 0)
@@ -124,4 +128,4 @@ You can customize the testing process by setting these parameters. The returned 
 
 ## Acknowledgement
 
-Thank [Peter Kairouz](https://web.stanford.edu/~kairouzp/) for valuable suggestions on 
+Thank [Peter Kairouz](https://web.stanford.edu/~kairouzp/) for valuable suggestions on improving the code.

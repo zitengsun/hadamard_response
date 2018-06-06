@@ -1,7 +1,7 @@
 # Hadamard Response: Learning Distributions Privately, Efficiently, and with Little Communication
 This package implements Hadamard Response for locally private discrete distribution estimation proposed in [Communication, Efficient Sample Optimal Linear Time Locally Private Discrete Distribution Estimation](https://arxiv.org/abs/1802.04705). 
 
-Also included are the implementations of Randomized Response(RR), RAPPOR and Subset Selection(SS) estimation schemes. 
+Also included are implementations of $k$-Randomized Response(RR), $k$-RAPPOR and Subset Selection(SS) estimation schemes. 
 
 <!---
 [distribution as well as three former schemes including . We also provide a script to compare their performance on synthetic data.
@@ -17,11 +17,11 @@ Also included are the implementations of Randomized Response(RR), RAPPOR and Sub
 * [Acknowledgement](#acknowledgement)
 
 
+<!---
 ## Brief Introduction
-
 Given *n* independent samples from an unknown distribution, the task of distribution learning is to infer the underlying distribution. In local differential privacy setting, samples are distributed in multiple users, and instead of sending the original samples they get, each user send a randomized version of their sample to preserve privacy. This comes with the expense of higher sample complexity.
-
 In high privacy regime, all former schemes require either a higher communication cost which is linear with the alphabet size *k* or a higher sample complexity which is a factor of *k* larger than the optimal. Our proposed scheme is the first to achieve optimal sample complexity and communication complexity in this regime. Moreover, the computation complexity at the server end is only *O(n+k)* while other optimal schemes require *Omega(nk)* time. A slightly generalized version is sample optimal in all parameter regimes with the same communication and computation complexity.
+--->
 
 
 ## Prerequisites

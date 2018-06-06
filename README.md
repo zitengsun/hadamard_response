@@ -1,7 +1,10 @@
 # Hadamard Response: Learning Distributions Privately, Efficiently, and with Little Communication
 This package implements Hadamard Response for locally private discrete distribution estimation proposed in [Communication, Efficient Sample Optimal Linear Time Locally Private Discrete Distribution Estimation](https://arxiv.org/abs/1802.04705). 
 
-Also included are implementations of $k$-Randomized Response(RR), $k$-RAPPOR and Subset Selection(SS) schemes. 
+Also included are implementations of *k*-Randomized Response(RR), *k*-RAPPOR and Subset Selection(SS) schemes. 
+
+
+The implementation is in Python3, and uses [Numpy](http://www.numpy.org) and [matplotlib](https://matplotlib.org/index.html). 
 
 <!---
 [distribution as well as three former schemes including . We also provide a script to compare their performance on synthetic data.
@@ -23,7 +26,6 @@ Given *n* independent samples from an unknown distribution, the task of distribu
 In high privacy regime, all former schemes require either a higher communication cost which is linear with the alphabet size *k* or a higher sample complexity which is a factor of *k* larger than the optimal. Our proposed scheme is the first to achieve optimal sample complexity and communication complexity in this regime. Moreover, the computation complexity at the server end is only *O(n+k)* while other optimal schemes require *Omega(nk)* time. A slightly generalized version is sample optimal in all parameter regimes with the same communication and computation complexity.
 --->
 
-This project is implemented in Python3, using [Numpy](http://www.numpy.org) and [matplotlib](https://matplotlib.org/index.html). Before running the code, make sure Python3, Numpy and Matplotlib are installed.
 
 <!---
 * [Instruction for installing Python3](https://docs.python.org/3/using/index.html)

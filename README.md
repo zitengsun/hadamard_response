@@ -1,4 +1,4 @@
-# Hadamard Response: Learning Distributions Privately, Efficiently, and with Little Communication
+# Hadamard Response: Estimating Distributions Privately, Efficiently, and with Little Communication
 This package implements Hadamard Response for locally private discrete distribution estimation proposed in [Communication, Efficient Sample Optimal Linear Time Locally Private Discrete Distribution Estimation](https://arxiv.org/abs/1802.04705). 
 
 Also included are implementations of *k*-Randomized Response(RR), *k*-RAPPOR and Subset Selection(SS) schemes. 

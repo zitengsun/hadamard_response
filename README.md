@@ -83,7 +83,7 @@ The same normalization options are also provided for randomized response.
 ### Subset Selection and RAPPOR
 The implementation of these two are quite similar, so here we give Subset Selection as an example.
 
-We have three encoding modes for *Subsetselection*, *standard*, *compress* and *light*. For *standard* mode, the following encoding function encode the input string into a *0/1* matrix of size *(n,k)* (*n* is the number of inputs and *k* is the alphabet size) where each row is the codeword corresponding to a certain input. To decode, we simply use *decode_string* function to decode this matrix:
+We have three encoding modes for *Subsetselection*, *standard*, *compress* and *light*. For *standard* mode, the following encoding functions encode the input string into a *0/1* matrix of size *(n,k)* (*n* is the number of inputs and *k* is the alphabet size) where each row is the codeword corresponding to a certain input. To decode, we simply use *decode_string* function to decode this matrix:
 
 ```python
     out_string = subset.encode_string_fast(in_list) 

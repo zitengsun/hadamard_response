@@ -1,11 +1,6 @@
 
-# coding: utf-8
-
-# In[ ]:
-
-
-get_ipython().run_line_magic('matplotlib', 'inline')
-import Ipynb_importer
+#get_ipython().run_line_magic('matplotlib', 'inline')
+#import Ipynb_importer
 #import Classic
 import RR_RAPPOR
 import Subsetselection
@@ -20,9 +15,6 @@ import math
 import matplotlib.pyplot as plt
 import scipy.io as io
 from functions import *
-
-
-# In[ ]:
 
 
 def test(k, eps, rep, point_num, step_sz, init, dist, encode_acc = 1, encode_mode = 0):
@@ -233,9 +225,6 @@ def test(k, eps, rep, point_num, step_sz, init, dist, encode_acc = 1, encode_mod
     filename = 'Data/data_' + dist + '_' + para + time
     io.savemat(filename,data)
     return data
-
-
-# In[ ]:
 
 
 #Testing script for comparison

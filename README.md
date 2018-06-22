@@ -33,6 +33,7 @@ In high privacy regime, all former schemes require either a higher communication
 * [Instruction for installing Matplotlib](https://matplotlib.org/users/installing.html) --->
 
 ## Usage
+We provide the packages as *.py* files and we also provide the *.pynb* files we wrote originally for testing in the *Jupyter _Notebooks* folder.
 
 The comments in the code files are enough to understand how to use the functions. Here we provide some examples which hopefully will be helpful. The four schemes are implemented based on python classes. Before using, please first import the packages and then specialize the scheme with the alphabet size (*k*) and the required privacy level (*eps*).
 
@@ -117,7 +118,7 @@ For simulation, we provide functions to get *geometric*, *uniform*, *two step*, 
     dist = generate_geometric_distribution(k,lbd)
 ```
 
-In file *test.ipynb* We also provide a function to compare the perfomance of the four schemes in terms of l_1 and l_2 error:
+In file *test.ipynb* (also available in *test.py*), we provide a function to compare the perfomance of the four schemes in terms of l_1 and l_2 error:
 
 ```python
     data = test(k, eps, rep, point_num, step_sz, init, dist, encode_acc = 1, encode_mode = 0)

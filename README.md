@@ -135,4 +135,4 @@ You can customize the testing process by setting these parameters. The returned 
 
 ## Acknowledgement
 
-We thank [Peter Kairouz](https://web.stanford.edu/~kairouzp/) for valuable suggestions on improving the code.
+We thank [Peter Kairouz](https://web.stanford.edu/~kairouzp/) and [Gautam Kamath](http://www.gautamkamath.com/) for valuable suggestions on improving the code.

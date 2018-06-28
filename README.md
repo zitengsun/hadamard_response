@@ -14,8 +14,6 @@ The implementation is in Python3, and uses [Numpy](http://www.numpy.org) and [ma
 
 
 ## Table of contents
-* [Brief Introduction](#brief-introduction)
-* [Prerequisites](#prerequisites)
 * [Usage](#usage)
 * [Acknowledgement](#acknowledgement)
 

@@ -67,11 +67,11 @@ If you only want to encode a single symbol, please use:
     out_symbol = hr.encode_symbol(in_symbol)
 ```
 
-When you decode the output string, you can also choose whether to use fast decoding and how to normalize the output. In general, fast decoding is preferred. For normalization, we provide two options, clip and normalize(default setting) and simplex projection.
+When you decode the output string, you can also choose whether to use fast decoding and how to normalize the output. In general, fast decoding is preferred. For normalization, we provide two options, clip and normalize(default setting) and simplex projection ([Projection onto the probability simplex: An efficient algorithm with a simple proof, and an application](https://arxiv.org/abs/1309.1541)).
 
 ### Randomized Response
 
-The following script first encode the input string into its randomized version and then learn the distribution based on the output string:
+The following script first encodes the input string into its randomized version and then learn the distribution based on the output string:
 ```python
     out_string = rr.encode_string(in_list)
     prob_est = rr.decode_string(out_string) # estimate the original underlying distribution
@@ -97,7 +97,7 @@ The drawback of *standard* mode is that it will have a huge momory cost, so we p
     prob_est = subset.decode_counts(counts,n) # estimate the original underlying distribution
 ```
 
-For *compress mode*, we encode each input symbol into a string of locations of *1*'s and then concatenate them together to get a bigger string. This may result in less communication cost when the privacy parameter is relatively large. When decoding, we need to first get the histogram and the use *decode_counts*:
+For *compress mode*, we encode each input symbol into a string of locations of *1*'s and then concatenate them together to get a bigger string. This may result in less communication cost when the privacy parameter is relatively large. When decoding, we need to first get the histogram and then use *decode_counts*:
 
 ```python
     out_list = subset.encode_string_compress(in_list) #subset selection
